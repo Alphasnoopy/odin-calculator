@@ -3,14 +3,14 @@ function add(num1, num2) {
 }
 
 function subtract(num1, num2) {
-    return num2 ? num1 - num2 : 0;
+    return num2 ? num1 - num2 : num1 - num1;
 }
 function multiply(num1, num2) {
     return num2 ? num1 * num2 : num1 * num1;
 }
 
 function divison(num1, num2) {
-    return num2 ? num1 / num2 : 1;
+    return num2 ? num1 / num2 : num1 / num1;
 }
 
 function percent(num) {
