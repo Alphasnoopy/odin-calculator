@@ -20,3 +20,23 @@ function percent(num) {
 function sqrt(num) {
     return Math.sqrt(num);
 }
+
+function operate(operand, num1, num2) {
+    switch (operand) {
+        case '+':
+            add(num1, num2);
+            break;
+        case '-':
+            subtract(num1, num2);
+            break;
+        case '*':
+            multiply(num1, num2);
+            break;
+        case '%':
+            percent(num1);
+            break;
+        case 'sqrt':
+            sqrt(num1);
+            break;
+    }
+}
