@@ -9,7 +9,7 @@ function multiply(num1, num2) {
     return num2 ? num1 * num2 : num1 * num1;
 }
 
-function divison(num1, num2) {
+function divide(num1, num2) {
     return num2 ? num1 / num2 : num1 / num1;
 }
 
@@ -31,6 +31,9 @@ function operate(operand, num1, num2) {
             break;
         case '*':
             multiply(num1, num2);
+            break;
+        case '÷':
+            divide(num1, num2);
             break;
         case '%':
             percent(num1);
