@@ -1,17 +1,53 @@
+html, body {
+    height: 100%;
+}
+
+main {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#outerCalc {
+    width: 380px;
+}
+
+#display {
+    display: flex;
+    align-items: center;
+}
+
+#memoryNegExp {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+}
+
+#inputOutput {
+    width: 350px;
+}
+
 #buttonContainer {
     display: flex;
-    gap: 25px;
+}
+
+button {
+    width: 80px;
+    height: 50px;
 }
 
 #leftButtons {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-row-gap: 10px;
-    grid-column-gap: 6px;
+    grid-row-gap: 15px;
+    grid-column-gap: 10px;
 }
 
 #rightButtons {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
+    margin-left: auto;
 }
