@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>Calculator</title>
         <link rel="stylesheet" href="style.css">
+        <script src="script.js" defer></script>
     </head>
 
     <body>
@@ -18,8 +19,8 @@
                 <div id="buttonContainer">
                     <div id="leftButtons">
                         <button id="neg">+/&minus;</button>
-                        <button id="sqrt">&radic;</button>
-                        <button id="percent">%</button>
+                        <button id="sqrt" class="operator">&radic;</button>
+                        <button id="percent" class="operator">%</button>
                         <button id="mrc">MRC</button>
                         <button id="mAdd">M+</button>
                         <button id="mMinus">M&minus;</button>
@@ -37,10 +38,10 @@
                         <button id="decimal" class="num">.</button>     
                     </div>
                     <div id="rightButtons">
-                        <button id="divide">÷</button>
-                        <button id="multipy">*</button>
-                        <button id="add">+</button>
-                        <button id="subtract">&minus;</button>
+                        <button id="divide" class="operator">÷</button>
+                        <button id="multipy" class="operator">*</button>
+                        <button id="add" class="operator">+</button>
+                        <button id="subtract" class="operator">&minus;</button>
                         <button id="enter">=</button>
                     </div>
                 </div>
