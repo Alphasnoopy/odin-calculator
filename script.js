@@ -1,5 +1,6 @@
 const enter = document.getElementById('enter');
 const operators = document.querySelectorAll('.operator');
+const operatorOthers = document.querySelectorAll('.operatorOther');
 const numericals = document.querySelectorAll('.num');
 const display = document.getElementById('inputOutput');
 
@@ -10,10 +11,10 @@ function add(num1, num2) {
     return num2 ? num1 + num2 : num1 + num1;
 }
 
-function subtract(num1, num2) {
+function subtract(num1, num2 = num1) {
     return num2 ? num1 - num2 : num1 - num1;
 }
-function multiply(num1, num2) {
+function multiply(num1, num2 = num1) {
     return num2 ? num1 * num2 : num1 * num1;
 }
 
@@ -29,35 +30,90 @@ function sqrt(num) {
     return Math.sqrt(num);
 }
 
-function operate(operator, num1, num2) {
-    switch (operator) {
+function operate() {
+    console.log('here');
+    switch (operatorList.pop()) {
         case 'add':
-            return add(num1, num2);
+            numList.push(add(numList.pop(), numList.pop()));
+            if (operatorList) {
+                operate();
+            };
+            break;
         case 'subtract':
-            return subtract(num1, num2);
+            numList.push(subtract(numList.pop(), numList.pop()));
+            if (operatorList) {
+                operate();
+            };
+            break;
         case 'multiply':
-            return multiply(num1, num2);
+            numList.push(multiply(numList.pop(), numList.pop()));
+            if (operatorList) {
+                operate();
+            };
+            break;
         case 'divide':
-            return divide(num1, num2);
+            numList.push(divide(numList.pop(), numList.pop()));
+            if (operatorList) {
+                operate();
+            };
+            break;
+    }
+}
+
+function operateOther(operator) {
+    console.log('here');
+    switch (operator) {
         case 'percent':
-            return percent(num1);
+            numList.push(percent(parseInt(numList.pop())));
+            console.log(numList);
+            console.log(operatorList);
+            if (operatorList) {
+                operatorList.reverse();
+                numList.reverse();
+                numList = numList.map((num) => {return parseInt(num)});
+                operate();
+            }
+            console.log(numList);
+            break;
         case 'sqrt':
-            return sqrt(num1);
+            numList.push(sqrt(parseInt(numList.pop())));
+            operatorList.pop();
+            console.log(numList);
+            break;
     }
 }
 
 function calculates() {
-    console.log('here');
-    operators.forEach((operator) => {operator.addEventListener('mousedown', () => {operatorList.push(operator.id)})});
-    numericals.forEach((number) => {number.addEventListener('mousedown', () => {
-        (operatorList.length === 1)? numList[0] += number.textContent : numList[1] += number.textContent;
+    operators.forEach((operator) => {operator.addEventListener('click', () => {
+        if (numList[1] !== '') {
+            operatorList.reverse();
+            numList.reverse();
+            numList = numList.map((num) => {return parseInt(num)});
+            operate();
+            display.textContent = numList[0];
+        }
+        operatorList.push(operator.id);
     })});
-    enter.addEventListener('mousedown', () => {
-        console.log('here');
+    
+    operatorOthers.forEach((operator) => {operator.addEventListener('click', () => {operateOther(operator.id)})});
+
+    numericals.forEach((number) => {number.addEventListener('click', () => {
+        console.log(numList);
+        console.log(number);
+        (operatorList.length > 0)? numList[1] += number.textContent : numList[0] += number.textContent;
+    })});
+
+    enter.addEventListener('click', () => {
         console.log(operatorList);
         console.log(numList);
-        display.textContent = operate(operatorList[0], parseInt(numList[0]), parseInt(numList[1]));
+        if (operatorList) {
+            operatorList.reverse();
+            numList.reverse();
+            numList = numList.map((num) => {return parseInt(num)});
+            operate();
+        }
+        display.textContent = numList[0];
     });
 }
 
-calculates()
+calculates()    
