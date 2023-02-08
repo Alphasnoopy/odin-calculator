@@ -7,6 +7,14 @@ const display = document.getElementById('inputOutput');
 let operatorList = [];
 let numList = ["",""];
 
+function checkListSize() {
+    console.log(numList);
+    while (operatorList.length >= numList.length) {
+        numList.unshift(numList[0]);
+    }
+    console.log(numList);
+}
+
 function add(num1, num2) {
     return num2 ? num1 + num2 : num1 + num1;
 }
@@ -35,6 +43,7 @@ function operate() {
     switch (operatorList.pop()) {
         case 'add':
             numList.push(add(numList.pop(), numList.pop()));
+            console.log(numList);
             if (operatorList) {
                 operate();
             };
@@ -64,13 +73,14 @@ function operateOther(operator) {
     console.log('here');
     switch (operator) {
         case 'percent':
-            numList.push(percent(parseInt(numList.pop())));
+            numList.push(percent(parseFloat(numList.pop())));
             console.log(numList);
             console.log(operatorList);
             if (operatorList) {
+                checkListSize();
                 operatorList.reverse();
                 numList.reverse();
-                numList = numList.map((num) => {return parseInt(num)});
+                numList = numList.map((num) => {return parseFloat(num)});
                 operate();
             }
             console.log(numList);
@@ -86,6 +96,7 @@ function operateOther(operator) {
 function calculates() {
     operators.forEach((operator) => {operator.addEventListener('click', () => {
         if (numList[1] !== '') {
+            checkListSize();
             operatorList.reverse();
             numList.reverse();
             numList = numList.map((num) => {return parseInt(num)});
@@ -107,6 +118,7 @@ function calculates() {
         console.log(operatorList);
         console.log(numList);
         if (operatorList) {
+            checkListSize();
             operatorList.reverse();
             numList.reverse();
             numList = numList.map((num) => {return parseInt(num)});
