@@ -71,6 +71,7 @@ function operate() {
 
 function operateOther(operator) {
     console.log('here');
+    numList = numList.filter((num) => num !== '');
     switch (operator) {
         case 'percent':
             numList.push(percent(parseFloat(numList.pop())));
@@ -99,7 +100,7 @@ function calculates() {
         if (numList[1] !== '') {
             checkListSize();
             operatorList.reverse();
-            numList.reverse();
+            numList = numList.reverse().filter((num) => num !== '');
             numList = numList.map((num) => {return parseInt(num)});
             operate();
             numList.push('');
@@ -122,7 +123,7 @@ function calculates() {
         if (operatorList) {
             checkListSize();
             operatorList.reverse();
-            numList.reverse();
+            numList = numList.reverse().filter((num) => num !== '');
             numList = numList.map((num) => {return parseInt(num)});
             operate();
             numList.push('');
