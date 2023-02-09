@@ -82,6 +82,7 @@ function operateOther(operator) {
                 numList.reverse();
                 numList = numList.map((num) => {return parseFloat(num)});
                 operate();
+                numList.push('');
             }
             console.log(numList);
             break;
@@ -101,6 +102,7 @@ function calculates() {
             numList.reverse();
             numList = numList.map((num) => {return parseInt(num)});
             operate();
+            numList.push('');
             display.textContent = numList[0];
         }
         operatorList.push(operator.id);
@@ -123,6 +125,7 @@ function calculates() {
             numList.reverse();
             numList = numList.map((num) => {return parseInt(num)});
             operate();
+            numList.push('');
         }
         display.textContent = numList[0];
     });
