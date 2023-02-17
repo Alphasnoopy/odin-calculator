@@ -8,12 +8,9 @@ let operatorList = [];
 let numList = ["",""];
 
 function checkListSize(amtRepeat, numRepeat) {
-    console.log(amtRepeat);
     for (let i=0; i <= amtRepeat; i++) {
         numList.splice(1, 0, numRepeat);
     };
-    console.log('here');
-    console.log(numList);
 }
 
 function add(num1, num2) {
@@ -69,6 +66,16 @@ function operate() {
     }
 }
 
+function operateSteps(amtRepeat, numRepeat) {
+    numList = numList.filter((num) => num !== '');
+    checkListSize(amtRepeat, numRepeat);
+    operatorList.reverse();
+    numList = numList.reverse();
+    numList = numList.map((num) => {return parseFloat(num)});
+    operate();
+    numList.push('');
+}
+
 function operateOther(operator) {
     console.log('here');
     // +1 because yet to filter ''
@@ -82,12 +89,7 @@ function operateOther(operator) {
             console.log(numList);
             console.log(operatorList);
             if (operatorList) {
-                checkListSize(operatorList.length-numList.length, numList[0]);
-                operatorList.reverse();
-                numList.reverse();
-                numList = numList.map((num) => {return parseFloat(num)});
-                operate();
-                numList.push('');
+                operateSteps(operatorList.length-numList.length, numList[0]);
             }
             console.log(numList);
             display.textContent = numList[0];
@@ -108,12 +110,7 @@ function operateOther(operator) {
 function calculates() {
     operators.forEach((operator) => {operator.addEventListener('click', () => { 
         if (!numList.includes('')) {
-            checkListSize(operatorList.length-numList.length, numList[0]);
-            operatorList.reverse();
-            numList = numList.reverse().filter((num) => num !== '');
-            numList = numList.map((num) => {return parseFloat(num)});
-            operate();
-            numList.push('');
+            operateSteps(operatorList.length-numList.length, numList[0]);
             display.textContent = numList[0];
         }
         operatorList.push(operator.id);
@@ -129,7 +126,7 @@ function calculates() {
                 numList.splice(-2, 1);
             }
             numList[numList.length-1] += number.textContent;
-            display.textContent = numList[numList.length-1]
+            display.textContent = numList[numList.length-1];
         }
         else {
             numList[0] += number.textContent;
@@ -140,13 +137,7 @@ function calculates() {
         console.log(operatorList);
         console.log(numList);
         if (operatorList) {
-            numList = numList.filter((num) => num !== '');
-            checkListSize(operatorList.length-numList.length, numList[0]);
-            operatorList.reverse();
-            numList = numList.reverse();
-            numList = numList.map((num) => {return parseFloat(num)});
-            operate();
-            numList.push('');
+            operateSteps(operatorList.length-numList.length, numList[0]);
         }
         display.textContent = numList[0];
     });
