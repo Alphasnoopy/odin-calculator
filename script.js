@@ -7,11 +7,12 @@ const display = document.getElementById('inputOutput');
 let operatorList = [];
 let numList = ["",""];
 
-function checkListSize() {
-    console.log(numList);
-    while (operatorList.length >= numList.length) {
-        numList.unshift(numList[0]);
-    }
+function checkListSize(amtRepeat, numRepeat) {
+    console.log(amtRepeat);
+    for (let i=0; i <= amtRepeat; i++) {
+        numList.splice(1, 0, numRepeat);
+    };
+    console.log('here');
     console.log(numList);
 }
 
@@ -39,7 +40,6 @@ function sqrt(num) {
 }
 
 function operate() {
-    console.log('here');
     switch (operatorList.pop()) {
         case 'add':
             numList.push(add(numList.pop(), numList.pop()));
@@ -71,14 +71,18 @@ function operate() {
 
 function operateOther(operator) {
     console.log('here');
-    numList = numList.filter((num) => num !== '');
+    // +1 because yet to filter ''
+    checkListSize(operatorList.length-numList.length+1, numList[0]);
+
     switch (operator) {
         case 'percent':
+            // same case pop single number
+            numList = numList.filter((num) => num !== '');
             numList.push(percent(parseFloat(numList.pop())));
             console.log(numList);
             console.log(operatorList);
             if (operatorList) {
-                checkListSize();
+                checkListSize(operatorList.length-numList.length, numList[0]);
                 operatorList.reverse();
                 numList.reverse();
                 numList = numList.map((num) => {return parseFloat(num)});
@@ -86,22 +90,28 @@ function operateOther(operator) {
                 numList.push('');
             }
             console.log(numList);
+            display.textContent = numList[0];
             break;
         case 'sqrt':
-            numList.push(sqrt(parseInt(numList.pop())));
-            operatorList.pop();
+            // pop doesnt work for single number
+            if (numList.includes('')) {
+                numList.splice(-2, 1, sqrt(parseFloat(numList[0])));
+            }
+            else {
+                numList.push(sqrt(parseFloat(numList.pop())));
+            }
             console.log(numList);
             break;
     }
 }
 
 function calculates() {
-    operators.forEach((operator) => {operator.addEventListener('click', () => {
-        if (numList[1] !== '') {
-            checkListSize();
+    operators.forEach((operator) => {operator.addEventListener('click', () => { 
+        if (!numList.includes('')) {
+            checkListSize(operatorList.length-numList.length, numList[0]);
             operatorList.reverse();
             numList = numList.reverse().filter((num) => num !== '');
-            numList = numList.map((num) => {return parseInt(num)});
+            numList = numList.map((num) => {return parseFloat(num)});
             operate();
             numList.push('');
             display.textContent = numList[0];
@@ -114,17 +124,27 @@ function calculates() {
     numericals.forEach((number) => {number.addEventListener('click', () => {
         console.log(numList);
         console.log(number);
-        (operatorList.length > 0)? numList[1] += number.textContent : numList[0] += number.textContent;
+        if (operatorList.length > 0) {
+            if (operatorList.length-numList.length === -2) {
+                numList.splice(-2, 1);
+            }
+            numList[numList.length-1] += number.textContent;
+            display.textContent = numList[numList.length-1]
+        }
+        else {
+            numList[0] += number.textContent;
+        }
     })});
 
     enter.addEventListener('click', () => {
         console.log(operatorList);
         console.log(numList);
         if (operatorList) {
-            checkListSize();
+            numList = numList.filter((num) => num !== '');
+            checkListSize(operatorList.length-numList.length, numList[0]);
             operatorList.reverse();
-            numList = numList.reverse().filter((num) => num !== '');
-            numList = numList.map((num) => {return parseInt(num)});
+            numList = numList.reverse();
+            numList = numList.map((num) => {return parseFloat(num)});
             operate();
             numList.push('');
         }
