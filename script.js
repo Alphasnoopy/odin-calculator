@@ -3,9 +3,10 @@ const operators = document.querySelectorAll('.operator');
 const operatorOthers = document.querySelectorAll('.operatorOther');
 const numericals = document.querySelectorAll('.num');
 const display = document.getElementById('inputOutput');
+const onClear = document.getElementById('onClear');
 
 let operatorList = [];
-let numList = ["",""];
+let numList = ['',''];
 
 function checkListSize(amtRepeat, numRepeat) {
     for (let i=0; i <= amtRepeat; i++) {
@@ -77,7 +78,7 @@ function operateSteps(amtRepeat, numRepeat) {
 }
 
 function operateOther(operator) {
-    console.log('here');
+    let sqrtnum = 0;
     // +1 because yet to filter ''
     checkListSize(operatorList.length-numList.length+1, numList[0]);
 
@@ -86,23 +87,22 @@ function operateOther(operator) {
             // same case pop single number
             numList = numList.filter((num) => num !== '');
             numList.push(percent(parseFloat(numList.pop())));
-            console.log(numList);
-            console.log(operatorList);
             if (operatorList) {
                 operateSteps(operatorList.length-numList.length, numList[0]);
             }
-            console.log(numList);
             display.textContent = numList[0];
             break;
         case 'sqrt':
             // pop doesnt work for single number
             if (numList.includes('')) {
-                numList.splice(-2, 1, sqrt(parseFloat(numList[0])));
+                sqrtnum = sqrt(parseFloat(numList[0]));
+                numList.splice(-2, 1, sqrtnum);
             }
             else {
-                numList.push(sqrt(parseFloat(numList.pop())));
+                sqrtnum = sqrt(parseFloat(numList.pop()));
+                numList.push(sqrtnum);
             }
-            console.log(numList);
+            display.textContent(sqrtnum);
             break;
     }
 }
@@ -119,8 +119,6 @@ function calculates() {
     operatorOthers.forEach((operator) => {operator.addEventListener('click', () => {operateOther(operator.id)})});
 
     numericals.forEach((number) => {number.addEventListener('click', () => {
-        console.log(numList);
-        console.log(number);
         if (operatorList.length > 0) {
             if (operatorList.length-numList.length === -2) {
                 numList.splice(-2, 1);
@@ -130,16 +128,21 @@ function calculates() {
         }
         else {
             numList[0] += number.textContent;
+            display.textContent = numList[0];
         }
     })});
 
     enter.addEventListener('click', () => {
-        console.log(operatorList);
-        console.log(numList);
         if (operatorList) {
             operateSteps(operatorList.length-numList.length, numList[0]);
         }
         display.textContent = numList[0];
+    });
+
+    onClear.addEventListener('click', () => {
+        operatorList = [];
+        numList = ['',''];
+        display.textContent = 0;
     });
 }
 
