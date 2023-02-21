@@ -17,14 +17,23 @@ main {
     gap: 10px;
 }
 
+#displayContainer {
+    display: flex;
+}
+
 #display {
     display: flex;
     align-items: center;
 }
 
-.vertSpace {
-    margin-top:-8px;
-    margin-bottom: -7px;
+.sideDesign {
+    width: 35px;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+}
+
+.sideBox {
+    border: 0.5px solid black;
 }
 
 #memoryNegExp {
@@ -33,6 +42,11 @@ main {
     align-items: center;
     font-weight: 800;
     font-size: 15px;
+}
+
+.vertSpace {
+    margin-top:-8px;
+    margin-bottom: -7px;
 }
 
 #inputOutput {
