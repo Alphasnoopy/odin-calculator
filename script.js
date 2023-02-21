@@ -4,6 +4,7 @@ const operatorOthers = document.querySelectorAll('.operatorOther');
 const numericals = document.querySelectorAll('.num');
 const display = document.getElementById('inputOutput');
 const onClear = document.getElementById('onClear');
+const sideDesigns = document.querySelectorAll('.sideDesign');
 
 let operatorList = [];
 let numList = ['',''];
@@ -108,6 +109,14 @@ function operateOther(operator) {
 }
 
 function calculates() {
+    sideDesigns.forEach((side) => {
+        for(let i = 0; i < 80; i++) {
+            let div = document.createElement('div');
+            div.classList.add('sideBox');
+            side.appendChild(div);
+        }
+    })
+
     operators.forEach((operator) => {operator.addEventListener('click', () => { 
         if (!numList.includes('')) {
             operateSteps(operatorList.length-numList.length, numList[0]);
