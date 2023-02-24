@@ -19,12 +19,28 @@ main {
 
 #displayContainer {
     display: flex;
+    gap: 2px;
+}
+
+#displayBorder {
+    background-color: rgb(70, 68, 68);
+    padding: 5px;
+    border-width: 4px 3px 4px 3px;
+    border-color: blue;
+    border-style: inset;
 }
 
 #display {
     display: flex;
     align-items: center;
-}
+    justify-content: space-between; 
+    background-color: darkgray;
+    border: 3px solid darkgray;
+    border-radius: 5px;
+    width: 284px;
+    box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.5),
+              -1px -1px 1px 1px rgba(0, 0, 0, 0.5);
+} 
 
 .sideDesign {
     width: 35px;
@@ -41,7 +57,7 @@ main {
     flex-direction: column;
     align-items: center;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .vertSpace {
@@ -52,7 +68,7 @@ main {
 #inputOutput {
     font-family: 'Orbitron';
     font-weight: 550;
-    font-size: 35px;
+    font-size: 37px;
     text-align: end;
 }
 
