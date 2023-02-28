@@ -15,6 +15,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background-color: blue;
 }     
 
 #displayContainer {
@@ -74,6 +75,10 @@ main {
 
 #buttonContainer {
     display: flex;
+    border: 2px groove rgb(5, 5, 218);
+    border-radius: 8px;
+    padding: 10px;
+    margin: 20px 10px 50px 10px;
 }
 
 button {
