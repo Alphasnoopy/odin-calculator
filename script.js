@@ -148,11 +148,11 @@ function calculates() {
             if (operatorList.length-numList.length === -2) {
                 numList.splice(-2, 1);
             }
-            numList[numList.length-1] += number.textContent;
+            numList[numList.length-1] += number.firstChild.textContent;
             display.textContent = numList[numList.length-1];
         }
         else {
-            numList[0] += number.textContent;
+            numList[0] += number.firstChild.textContent;
             display.textContent = numList[0];
         }
     })});
