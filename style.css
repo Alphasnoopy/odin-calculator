@@ -82,8 +82,29 @@ main {
 }
 
 button {
-    width: 80px;
-    height: 50px;
+    width: 65px;
+    height: 45px;
+    border-radius: 5px;
+    outline: 3px inset blue;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 20px;
+    padding: 0 5px;
+}
+
+.btnDesign {
+    display: grid;
+    grid-template-columns: repeat(9, 3px);
+    grid-gap: 3px;
+}
+
+.btnBox {
+    border: 1px outset red;
+}
+
+.btnBoxNum {
+    border: 1px outset white;
 }
 
 #leftButtons {
