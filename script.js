@@ -5,6 +5,7 @@ const numericals = document.querySelectorAll('.num');
 const display = document.getElementById('inputOutput');
 const onClear = document.getElementById('onClear');
 const sideDesigns = document.querySelectorAll('.sideDesign');
+const btnDesigns = document.querySelectorAll('.btnDesign');
 
 let operatorList = [];
 let numList = ['',''];
@@ -114,6 +115,21 @@ function calculates() {
             let div = document.createElement('div');
             div.classList.add('sideBox');
             side.appendChild(div);
+        }
+    })
+
+    btnDesigns.forEach((btn) => {
+        let currClass = '';
+        if (btn.parentNode.classList.contains('num')){
+            currClass = 'btnBoxNum';
+        }
+        else {
+            currClass = 'btnBox';
+        }
+        for(let i = 0; i < 27; i++) {
+            let div = document.createElement('div');
+            div.classList.add(currClass);
+            btn.appendChild(div);
         }
     })
 
