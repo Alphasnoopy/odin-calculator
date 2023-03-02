@@ -94,6 +94,7 @@ main {
     align-items: flex-start;
     gap: 20px;
     height:30px;
+    color: rgb(218, 215, 215);
 }
 
 #make {
