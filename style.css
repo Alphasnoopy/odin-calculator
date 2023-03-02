@@ -112,15 +112,14 @@ main {
 
 #solar {
     display: flex;
-    gap: 2px;
+    gap: 3px;
     background-color: black;
-    width: 166px;
+    width: 169px;
     height: 45px;
-    border: 3px inset gray
 }
 
 .panel {
-    background-color: gray;
+    background-color: rgb(31, 31, 31);
     width: 40px;
 }
 
