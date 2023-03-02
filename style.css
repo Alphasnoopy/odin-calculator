@@ -74,6 +74,18 @@ main {
     text-align: end;
 }
 
+#make {
+    font-family: 'Abel';
+    font-size: 22px;
+    letter-spacing: -2px;
+}
+
+#model {
+    font-family: 'Faustina';
+    font-weight: 700;
+    font-size: 40px;
+}
+
 #buttonContainer {
     display: flex;
     border: 2px groove rgb(5, 5, 218);
