@@ -86,6 +86,20 @@ main {
     font-size: 40px;
 }
 
+#solar {
+    display: flex;
+    gap: 2px;
+    background-color: black;
+    width: 126px;
+    height: 40px;
+    border: 3px inset gray
+}
+
+.panel {
+    background-color: gray;
+    width: 30px;
+}
+
 #buttonContainer {
     display: flex;
     border: 2px groove rgb(5, 5, 218);
