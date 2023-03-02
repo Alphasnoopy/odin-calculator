@@ -15,12 +15,18 @@ main {
     display: flex;
     flex-direction: column;
     background-color: blue;
-}     
+    border-radius: 5px 5px 30px 30px;
+}   
+
+#topCalc {
+    height: 25px;
+    border-bottom: 3px groove rgb(0, 89, 253);;
+}
 
 #displayContainer {
     display: flex;
     gap: 2px;
-    margin: 0 0 1px 5px;
+    margin: 1px 0 1px 5px;
 }
 
 #displayBorder {
@@ -120,9 +126,9 @@ main {
 #buttonContainer {
     display: flex;
     border: 2px groove rgb(5, 5, 218);
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 15px;
-    margin: 20px 15px 50px 15px;
+    margin: 16px 15px 50px 15px;
 }
 
 button {
