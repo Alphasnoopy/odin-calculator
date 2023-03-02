@@ -74,16 +74,23 @@ main {
     text-align: end;
 }
 
+#label {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
 #make {
-    font-family: 'Abel';
-    font-size: 22px;
-    letter-spacing: -2px;
+    font-family: 'Michroma';
+    font-size: 15px;
 }
 
 #model {
-    font-family: 'Faustina';
+    font-family: 'Courier Prime';
     font-weight: 700;
     font-size: 40px;
+    line-height: 42px;
+    letter-spacing: -4px;
 }
 
 #solar {
