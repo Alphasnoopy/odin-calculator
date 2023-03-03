@@ -11,29 +11,31 @@ main {
 }
 
 #outerCalc {
-    width: 395px;
+    width: 393px;
     display: flex;
     flex-direction: column;
-    background-color: blue;
+    background-color: rgb(9, 81, 147);
     border-radius: 5px 5px 30px 30px;
+    box-shadow: inset 2px 2px 2px 1px rgba(104, 178, 248, 0.5),
+                inset -2px -2px 2px 1px rgba(0, 0, 0, 0.5);
 }   
 
 #topCalc {
     height: 25px;
-    border-bottom: 3px groove rgb(0, 89, 253);;
+    border-bottom: 3px groove rgb(11, 95, 173);
 }
 
 #displayContainer {
     display: flex;
     gap: 2px;
-    margin: 1px 0 1px 5px;
+    margin: 1px 0 1px 6px;
 }
 
 #displayBorder {
-    background-color: rgb(70, 68, 68);
+    background-color: rgb(70, 75, 69);
     padding: 5px;
-    border-width: 4px 3px 4px 3px;
-    border-color: blue;
+    border-width: 4px 1px 4px 2px;
+    border-color: rgb(9, 86, 158);
     border-style: inset;
 }
 
@@ -41,12 +43,13 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between; 
-    background-color: darkgray;
-    border: 3px solid darkgray;
+    background-color: rgb(172, 172, 172);
+    border: 3px solid rgb(172, 172, 172);
     border-radius: 5px;
     width: 290px;
     box-shadow: 1px 1px 1px 1px rgba(255, 255, 255, 0.5),
               -1px -1px 1px 1px rgba(0, 0, 0, 0.5);
+    color: rgba(49, 53, 49, 0.295);
 } 
 
 .sideDesign {
@@ -56,7 +59,7 @@ main {
 }
 
 .sideBox {
-    border: 1px outset blue;
+    border: 1px outset rgb(9, 81, 147);
 }
 
 #memoryNegExp {
@@ -83,9 +86,9 @@ main {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 12px 0 10px 14px;
+    padding: 12px 0 10px 12px;
     border-width: 3px;
-    border-color: rgb(0, 89, 253);
+    border-color: rgb(11, 95, 173);
     border-style: groove none groove none;
 }
 
@@ -94,7 +97,7 @@ main {
     align-items: flex-start;
     gap: 20px;
     height:30px;
-    color: rgb(218, 215, 215);
+    color: rgb(193, 217, 235);
 }
 
 #make {
@@ -119,13 +122,14 @@ main {
 }
 
 .panel {
-    background-color: rgb(31, 31, 31);
+    background-color: rgb(26, 31, 26);
     width: 40px;
+    box-shadow: inset 0 5px 3px rgba(0, 0, 0, 0.5);
 }
 
 #buttonContainer {
     display: flex;
-    border: 2px groove rgb(5, 5, 218);
+    border: 2px groove rgb(11, 95, 173);
     border-radius: 10px;
     padding: 15px;
     margin: 16px 15px 50px 15px;
@@ -134,10 +138,11 @@ main {
 button {
     width: 65px;
     height: 45px;
-    background-color: red;
-    border-color: red;
+    background-color: rgb(214, 44, 61);
+    border-color: rgb(247, 40, 61);
     border-radius: 5px;
-    outline: 3px inset blue;
+    outline: 3px inset rgb(9, 81, 147);
+    color: rgb(219, 222, 230);
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
@@ -146,8 +151,9 @@ button {
 }
 
 .num {
-    background-color: white;
-    border-color: white;
+    background-color: rgb(219, 222, 230);
+    border-color: rgb(228, 229, 233);
+    color: rgb(32, 40, 60);
 }
 
 .btnDesign {
@@ -157,11 +163,11 @@ button {
 }
 
 .btnBox {
-    border: 1px outset red;
+    border: 1px outset rgb(214, 44, 61);
 }
 
 .btnBoxNum {
-    border: 1px outset white;
+    border: 1px outset rgb(219, 222, 230);
 }
 
 #leftButtons {
