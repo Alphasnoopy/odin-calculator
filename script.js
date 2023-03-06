@@ -2,10 +2,11 @@ const enter = document.getElementById('enter');
 const operators = document.querySelectorAll('.operator');
 const operatorOthers = document.querySelectorAll('.operatorOther');
 const numericals = document.querySelectorAll('.num');
-const display = document.getElementById('inputOutput');
+const display = document.getElementById('displayNum');
 const onClear = document.getElementById('onClear');
 const sideDesigns = document.querySelectorAll('.sideDesign');
 const btnDesigns = document.querySelectorAll('.btnDesign');
+const decimal = document.getElementById('decimal');
 
 let operatorList = [];
 let numList = ['',''];
@@ -43,7 +44,6 @@ function operate() {
     switch (operatorList.pop()) {
         case 'add':
             numList.push(add(numList.pop(), numList.pop()));
-            console.log(numList);
             if (operatorList) {
                 operate();
             };
@@ -79,6 +79,11 @@ function operateSteps(amtRepeat, numRepeat) {
     numList.push('');
 }
 
+function displayNum(num) {
+    (String(num).includes('.')) ? decimal.style.display = 'none' : decimal.style.display = 'inline';
+    display.textContent = num;
+}
+
 function operateOther(operator) {
     let sqrtnum = 0;
     // +1 because yet to filter ''
@@ -92,7 +97,7 @@ function operateOther(operator) {
             if (operatorList) {
                 operateSteps(operatorList.length-numList.length, numList[0]);
             }
-            display.textContent = numList[0];
+            displayNum(numList[0]);
             break;
         case 'sqrt':
             // pop doesnt work for single number
@@ -104,7 +109,7 @@ function operateOther(operator) {
                 sqrtnum = sqrt(parseFloat(numList.pop()));
                 numList.push(sqrtnum);
             }
-            display.textContent(sqrtnum);
+            displayNum(sqrtnum);
             break;
     }
 }
@@ -120,12 +125,7 @@ function calculates() {
 
     btnDesigns.forEach((btn) => {
         let currClass = '';
-        if (btn.parentNode.classList.contains('num')){
-            currClass = 'btnBoxNum';
-        }
-        else {
-            currClass = 'btnBox';
-        }
+        btn.parentNode.classList.contains('num') ? currClass = 'btnBoxNum' : currClass = 'btnBox';
         for(let i = 0; i < 27; i++) {
             let div = document.createElement('div');
             div.classList.add(currClass);
@@ -136,7 +136,7 @@ function calculates() {
     operators.forEach((operator) => {operator.addEventListener('click', () => { 
         if (!numList.includes('')) {
             operateSteps(operatorList.length-numList.length, numList[0]);
-            display.textContent = numList[0];
+            displayNum(numList[0]);
         }
         operatorList.push(operator.id);
     })});
@@ -149,15 +149,14 @@ function calculates() {
                 numList.splice(-2, 1);
             }
             numList[numList.length-1] += number.firstChild.textContent;
-            display.textContent = numList[numList.length-1];
+            displayNum(numList[numList.length-1]);
         }
         else if (typeof numList[0] !== 'string'){
             numList[0] = number.firstChild.textContent;
-            display.textContent = numList[0];
-        }
+            displayNum(numList[0]);        }
         else {
             numList[0] += number.firstChild.textContent;
-            display.textContent = numList[0];
+            displayNum(numList[0]);
         }
     })});
 
@@ -165,14 +164,14 @@ function calculates() {
         if (operatorList) {
             operateSteps(operatorList.length-numList.length, numList[0]);
         }
-        display.textContent = numList[0];
-    });
+        displayNum(numList[0]);
+        });
 
     onClear.addEventListener('click', () => {
         operatorList = [];
         numList = ['',''];
-        display.textContent = 0;
-    });
+        displayNum(0);
+        });
 }
 
 calculates()    
