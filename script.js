@@ -151,6 +151,10 @@ function calculates() {
             numList[numList.length-1] += number.firstChild.textContent;
             display.textContent = numList[numList.length-1];
         }
+        else if (typeof numList[0] !== 'string'){
+            numList[0] = number.firstChild.textContent;
+            display.textContent = numList[0];
+        }
         else {
             numList[0] += number.firstChild.textContent;
             display.textContent = numList[0];
