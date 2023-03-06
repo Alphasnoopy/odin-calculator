@@ -7,6 +7,8 @@ const onClear = document.getElementById('onClear');
 const sideDesigns = document.querySelectorAll('.sideDesign');
 const btnDesigns = document.querySelectorAll('.btnDesign');
 const decimal = document.getElementById('decimal');
+const negBtn = document.getElementById('neg');
+const negSign = document.getElementById('negSign');
 
 let operatorList = [];
 let numList = ['',''];
@@ -81,7 +83,11 @@ function operateSteps(amtRepeat, numRepeat) {
 
 function displayNum(num) {
     (String(num).includes('.')) ? decimal.style.display = 'none' : decimal.style.display = 'inline';
-    display.textContent = num;
+    display.textContent = Math.abs(num);
+}
+
+function checkNeg(num) {
+    (String(num).includes('-')) ? negSign.style.color = 'Black' : negSign.style.color = 'rgba(49, 53, 49, 0.295)';
 }
 
 function operateOther(operator) {
@@ -98,6 +104,7 @@ function operateOther(operator) {
                 operateSteps(operatorList.length-numList.length, numList[0]);
             }
             displayNum(numList[0]);
+            checkNeg(numList[0]);
             break;
         case 'sqrt':
             // pop doesnt work for single number
@@ -137,6 +144,7 @@ function calculates() {
         if (!numList.includes('')) {
             operateSteps(operatorList.length-numList.length, numList[0]);
             displayNum(numList[0]);
+            checkNeg(numList[0]);
         }
         operatorList.push(operator.id);
     })});
@@ -145,18 +153,23 @@ function calculates() {
 
     numericals.forEach((number) => {number.addEventListener('click', () => {
         if (operatorList.length > 0) {
+            
             if (operatorList.length-numList.length === -2) {
                 numList.splice(-2, 1);
             }
             numList[numList.length-1] += number.firstChild.textContent;
             displayNum(numList[numList.length-1]);
+            checkNeg(numList[numList.length-1]);
         }
         else if (typeof numList[0] !== 'string'){
             numList[0] = number.firstChild.textContent;
-            displayNum(numList[0]);        }
+            displayNum(numList[0]);
+            checkNeg(numList[0]);
+            }
         else {
             numList[0] += number.firstChild.textContent;
             displayNum(numList[0]);
+            checkNeg(numList[0]);
         }
     })});
 
@@ -165,13 +178,27 @@ function calculates() {
             operateSteps(operatorList.length-numList.length, numList[0]);
         }
         displayNum(numList[0]);
-        });
+        checkNeg(numList[0]);
+    });
 
     onClear.addEventListener('click', () => {
         operatorList = [];
         numList = ['',''];
         displayNum(0);
-        });
+    });
+
+    negBtn.addEventListener('click', () => {
+        let negated = 0;
+        if (numList[numList.length-1] !== '') {
+            negated = numList.pop() * -1;
+            numList.push(String(negated));
+        }
+        else {
+            negated = numList[0] * -1;
+            numList[0] = String(negated);
+        }
+        checkNeg(negated);
+    })
 }
 
 calculates()    
