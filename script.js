@@ -12,6 +12,7 @@ const negSign = document.getElementById('negSign');
 
 let operatorList = [];
 let numList = ['',''];
+let start = false;
 
 function checkListSize(amtRepeat, numRepeat) {
     for (let i=0; i <= amtRepeat; i++) {
@@ -83,7 +84,7 @@ function operateSteps(amtRepeat, numRepeat) {
 
 function displayNum(num) {
     (String(num).includes('.')) ? decimal.style.display = 'none' : decimal.style.display = 'inline';
-    display.textContent = Math.abs(num);
+    display.textContent = String(num).replace('-','');
 }
 
 function checkNeg(num) {
@@ -140,20 +141,13 @@ function calculates() {
         }
     })
 
-    operators.forEach((operator) => {operator.addEventListener('click', () => { 
-        if (!numList.includes('')) {
-            operateSteps(operatorList.length-numList.length, numList[0]);
-            displayNum(numList[0]);
-            checkNeg(numList[0]);
-        }
-        operatorList.push(operator.id);
-    })});
-    
-    operatorOthers.forEach((operator) => {operator.addEventListener('click', () => {operateOther(operator.id)})});
-
     numericals.forEach((number) => {number.addEventListener('click', () => {
-        if (operatorList.length > 0) {
-            
+        display.parentNode.style.color = 'Black';
+        start = true;
+        if(numList[0] === '0') {
+            numList[0] = '';
+        }
+        if (operatorList.length > 0) {           
             if (operatorList.length-numList.length === -2) {
                 numList.splice(-2, 1);
             }
@@ -173,22 +167,40 @@ function calculates() {
         }
     })});
 
+    onClear.addEventListener('click', () => {
+        display.parentNode.style.color = 'Black';
+        start = true;
+        operatorList = [];
+        numList = ['0',''];
+        displayNum(numList[0]);
+    });
+    
+    operators.forEach((operator) => {operator.addEventListener('click', () => { 
+        if (start) {
+            if (!numList.includes('')) {
+                operateSteps(operatorList.length-numList.length, numList[0]);
+                displayNum(numList[0]);
+                checkNeg(numList[0]);
+            }
+            operatorList.push(operator.id);
+        }
+    })});
+    
+    operatorOthers.forEach((operator) => {operator.addEventListener('click', () => {operateOther(operator.id)})});
     enter.addEventListener('click', () => {
+        if (start) {
+            console.log(operatorList);
         if (operatorList) {
             operateSteps(operatorList.length-numList.length, numList[0]);
         }
         displayNum(numList[0]);
         checkNeg(numList[0]);
-    });
-
-    onClear.addEventListener('click', () => {
-        operatorList = [];
-        numList = ['',''];
-        displayNum(0);
+        }
     });
 
     negBtn.addEventListener('click', () => {
-        let negated = 0;
+        if (start) {
+            let negated = 0;
         if (numList[numList.length-1] !== '') {
             negated = numList.pop() * -1;
             numList.push(String(negated));
@@ -198,7 +210,8 @@ function calculates() {
             numList[0] = String(negated);
         }
         checkNeg(negated);
-    })
+        }
+    });
 }
 
 calculates()    
