@@ -9,10 +9,16 @@ const btnDesigns = document.querySelectorAll('.btnDesign');
 const decimal = document.getElementById('decimal');
 const negBtn = document.getElementById('neg');
 const negSign = document.getElementById('negSign');
+const mrc = document.getElementById('mrc');
+const mMinus = document.getElementById('mMinus');
+const mAdd = document.getElementById('mAdd');
+const mSign = document.getElementById('mSign');
 
 let operatorList = [];
 let numList = ['',''];
 let start = false;
+let memory = '0';
+let mClickOnce = false;
 
 function checkListSize(amtRepeat, numRepeat) {
     for (let i=0; i <= amtRepeat; i++) {
@@ -141,40 +147,6 @@ function calculates() {
         }
     })
 
-    numericals.forEach((number) => {number.addEventListener('click', () => {
-        display.parentNode.style.color = 'Black';
-        start = true;
-        if(numList[0] === '0') {
-            numList[0] = '';
-        }
-        if (operatorList.length > 0) {           
-            if (operatorList.length-numList.length === -2) {
-                numList.splice(-2, 1);
-            }
-            numList[numList.length-1] += number.firstChild.textContent;
-            displayNum(numList[numList.length-1]);
-            checkNeg(numList[numList.length-1]);
-        }
-        else if (typeof numList[0] !== 'string'){
-            numList[0] = number.firstChild.textContent;
-            displayNum(numList[0]);
-            checkNeg(numList[0]);
-            }
-        else {
-            numList[0] += number.firstChild.textContent;
-            displayNum(numList[0]);
-            checkNeg(numList[0]);
-        }
-    })});
-
-    onClear.addEventListener('click', () => {
-        display.parentNode.style.color = 'Black';
-        start = true;
-        operatorList = [];
-        numList = ['0',''];
-        displayNum(numList[0]);
-    });
-    
     operators.forEach((operator) => {operator.addEventListener('click', () => { 
         if (start) {
             if (!numList.includes('')) {
@@ -212,6 +184,80 @@ function calculates() {
         checkNeg(negated);
         }
     });
+
+    mrc.addEventListener('click', () => {
+        if (start) {
+            if (mClickOnce === false) {
+                displayNum(memory);
+                checkNeg(memory);
+                mSign.style.color = 'Black';
+                mClickOnce = true;
+            }
+            else {
+                displayNum(memory);
+                checkNeg(memory);
+                numList[0] = parseFloat(memory);
+                memory = '0';
+                mSign.style.color = 'rgba(49, 53, 49, 0.295)';
+                mClickOnce = false;
+            }
+        }
+    });
+
+    mAdd.addEventListener('click', () => {
+        if (start) {
+            operateSteps(operatorList.length-numList.length, numList[0]);
+            memory = parseFloat(memory) + parseFloat(numList[0]);
+            displayNum(numList[0]);
+            checkNeg(numList[0]);
+            mSign.style.color = 'Black';
+        }
+    });
+
+    mMinus.addEventListener('click', () => {
+        if (start) {
+            operateSteps(operatorList.length-numList.length, numList[0]);
+            memory = parseFloat(memory) - parseFloat(numList[0]);
+            displayNum(numList[0]);
+            checkNeg(numList[0]);
+            mSign.style.color = 'Black';
+        }
+    });
+
+    numericals.forEach((number) => {number.addEventListener('click', () => {
+        display.parentNode.style.color = 'Black';
+        start = true;
+        if(numList[0] === '0') {
+            numList[0] = '';
+        }
+        if (operatorList.length > 0) {           
+            if (operatorList.length-numList.length === -2) {
+                numList.splice(-2, 1);
+            }
+            numList[numList.length-1] += number.firstChild.textContent;
+            displayNum(numList[numList.length-1]);
+            checkNeg(numList[numList.length-1]);
+        }
+        else if (typeof numList[0] !== 'string'){
+            numList[0] = number.firstChild.textContent;
+            displayNum(numList[0]);
+            checkNeg(numList[0]);
+            }
+        else {
+            numList[0] += number.firstChild.textContent;
+            displayNum(numList[0]);
+            checkNeg(numList[0]);
+        }
+    })});
+
+    onClear.addEventListener('click', () => {
+        display.parentNode.style.color = 'Black';
+        start = true;
+        operatorList = [];
+        numList = ['0',''];
+        displayNum(numList[0]);
+    });
+    
 }
 
 calculates()    
