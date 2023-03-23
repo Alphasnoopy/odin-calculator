@@ -155,7 +155,8 @@ button {
     padding: 0 5px;
 }
 
-.num {
+.num,
+#decimal {
     background-color: rgb(219, 222, 230);
     border-color: rgb(228, 229, 233);
     color: rgb(32, 40, 60);
