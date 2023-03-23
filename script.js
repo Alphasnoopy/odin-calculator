@@ -19,6 +19,26 @@ main();
 
 function main() {
     const allBtns = document.getElementsByTagName('button');
+    const sideDesigns = document.querySelectorAll('.sideDesign');
+    const btnDesigns = document.querySelectorAll('.btnDesign');
+
+    sideDesigns.forEach((side) => {
+        for(let i = 0; i < 80; i++) {
+            let div = document.createElement('div');
+            div.classList.add('sideBox');
+            side.appendChild(div);
+        }
+    })
+
+    btnDesigns.forEach((btn) => {
+        let currClass = '';
+        (btn.parentNode.classList.contains('num') || btn.parentNode.id === 'decimal') ? currClass = 'btnBoxNum' : currClass = 'btnBox';
+        for(let i = 0; i < 27; i++) {
+            let div = document.createElement('div');
+            div.classList.add(currClass);
+            btn.appendChild(div);
+        }
+    })
 
     Array.from(allBtns).forEach(btn => btn.addEventListener('click', () => calculator(btn)));
 }
