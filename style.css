@@ -7,6 +7,8 @@ html, body {
     background-color: rgb(20, 148, 148);
 }
 
+/* Main Section */
+
 main {
     height: 100%;
     display: flex;
@@ -23,12 +25,16 @@ main {
     border-radius: 5px 5px 30px 30px;
     box-shadow: inset 2px 2px 2px 1px rgba(104, 178, 248, 0.5),
                 inset -2px -2px 2px 1px rgba(0, 0, 0, 0.5);
-}   
+}
+
+/* Decoration Top Section */
 
 #topCalc {
     height: 25px;
     border-bottom: 3px groove rgb(11, 95, 173);
 }
+
+/* Display Section */
 
 #displayContainer {
     display: flex;
@@ -88,6 +94,8 @@ main {
     line-height: 50px;
 }
 
+ /* Solor Panel Label Decoration Section */
+
 #labelSolar {
     display: flex;
     flex-direction: column;
@@ -136,6 +144,8 @@ main {
 #leftPanel {
     box-shadow: inset 5px 5px 3px rgba(0, 0, 0, 0.5);
 }
+
+/* Button Section */
 
 #buttonContainer {
     display: flex;
