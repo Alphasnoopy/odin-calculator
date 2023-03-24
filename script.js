@@ -1,3 +1,4 @@
+// Global Variables
 const display = document.getElementById('displayNum');
 const dot = document.getElementById('dot');
 const mSign = document.getElementById('mSign');
@@ -12,7 +13,7 @@ let currOp = '';
 let constantNum = '';
 let constantOp = '';
 let numList = [];
-let memory = '';
+let memory = 0;
 const ogColor = 'rgba(49, 53, 49, 0.295)';
 
 main();
@@ -22,6 +23,7 @@ function main() {
     const sideDesigns = document.querySelectorAll('.sideDesign');
     const btnDesigns = document.querySelectorAll('.btnDesign');
 
+    // Create grid for side of display
     sideDesigns.forEach((side) => {
         for(let i = 0; i < 80; i++) {
             let div = document.createElement('div');
@@ -30,6 +32,7 @@ function main() {
         }
     })
 
+    // Create grid for each button
     btnDesigns.forEach((btn) => {
         let currClass = '';
         (btn.parentNode.classList.contains('num') || btn.parentNode.id === 'decimal') ? currClass = 'btnBoxNum' : currClass = 'btnBox';
@@ -40,6 +43,7 @@ function main() {
         }
     })
 
+    // Listen for click for each button
     Array.from(allBtns).forEach(btn => btn.addEventListener('click', () => calculator(btn)));
 }
 
@@ -49,57 +53,72 @@ function calculator(btnElement) {
     const btnCategory = (btnElement.classList.length !== 0)? btnElement.className : btnID;
 
     switch(btnCategory) {
+        // onClear
         case ('onClear') :
+            // Start Calculator
             start = true;
             mOnce = false;
             display.parentNode.style.color = 'black';
+            // Clear once, only current number
             if (!clearOnce) {
+                if (currNum === '') {
+                    numList = [];
+                }
                 currNum = '0';
                 displayStyle(currNum);
                 clearOnce = true;
             }
+            // Click twice without interuption, reset
             else {
                 reset();
                 clearOnce = false;
             }
             break;
+        // Numericals
         case ('num') :
+            // Start calculator
             start = true;
+            clearOnce = false;
             display.parentNode.style.color = 'black';
-            if (currNum.replace(/[-.]/g, "").length < 8 && typeof currNum === 'string') {
+            // Check length without neg and decimal sign, Check if string
+            if (typeof currNum === 'string' && currNum.replace(/[-.]/g, "").length < 8) {
+                btnContent = btnElement.firstChild.textContent;
                 if (mOnce) {
                     currNum = '';
                     mOnce = false;
                 }
-                btnContent = btnElement.firstChild.textContent;
-
+                // Prevent ex: '01'
                 (currNum === '0')? currNum = btnContent : currNum += btnContent;
                 displayStyle(currNum);
-
-                console.log(numList);
-                console.log(currNum);
             }
             break;
+        // Decimal    
         case ('decimal') :
+            // Start Calculator
             start = true;
+            clearOnce = false;
             display.parentNode.style.color = 'black';
+            // Replace current num from memory to decimal
             if (mOnce) {
                 currNum = '0.';
                 mOnce = false;
             }
             else if (!currNum.includes('.')) {
+                // Prevent ex: '.1' vs '0.1'
                 if (currNum === '') currNum = '0';
                 currNum += '.';
             }
             displayStyle(currNum);
             break;
+        // Negative
         case ('neg') :
             if (start) {
+                clearOnce = false;
                 mOnce = false;
-                let negated = 0;
+
                 if (currNum !== '') {
-                    negated = currNum * -1;
-                    currNum = String(negated);
+                    // Return to string to allow for additional digits
+                    currNum = String(currNum * -1);
                     displayStyle(currNum);
                 }
                 else {
@@ -108,14 +127,17 @@ function calculator(btnElement) {
                 }
             }
             break;
+        // Basic Operators
         case ('operator') :
             if (start) {
+                clearOnce = false;
                 mOnce = false;
                 constantNum = '';
                 constantOp = '';
-
+                
                 if (currNum !== '') {
-                    if (numList.length !== 0) {
+                    // ex: 2 = 2 +  =>  2 +
+                    if (currOp === '') {
                         numList[0] = currNum;
                     }
                     else {
@@ -123,7 +145,7 @@ function calculator(btnElement) {
                     }
                     currNum = '';
                 }
-
+        
                 if (numList.length === 2) {
                     evaluate();
                     displayStyle(numList[0]);
@@ -131,9 +153,12 @@ function calculator(btnElement) {
                 currOp = btnID;
             }
             break;
+        // Square Root
         case ('sqrt') :
             if (start) {
+                clearOnce = false;
                 mOnce = false;
+                // Sqrt previously solved numbers
                 if (currNum === '') {
                     numList[0] = sqrt(parseFloat(numList[0]));
                     displayStyle(numList[0]);
@@ -144,71 +169,93 @@ function calculator(btnElement) {
                 }
             }
             break;
+        // Percent
         case ('percent') :
             if (start) {
+                clearOnce = false;
                 mOnce = false;
                 constantNum = '';
                 constantOp = '';
-
+                
+                // Percent of previously solved number
                 if (currNum === '' && currOp === '') {
                     numList[0] = percent(parseFloat(numList[0]));
                 }
+                // Solve ex: 1+, percent result
                 else if (currNum === '') {
                     numList.push(numList[0]);
                     evaluate();
                     numList[0] = percent(parseFloat(numList[0]));
                 }
                 else {
+                    // ex: 250 + 5% => 250 + (250 * 5%)
+                    // Append ex: (250 * 5%)
                     if (currOp === 'add' || currOp === 'subtract') {
                         numList.push(multiply(numList[0], percent(parseFloat(currNum))));
                     }
+                    // ex: 250 * 5% => 250 * 0.05
+                    // Append percentage
                     else {
                         numList.push(percent(parseFloat(currNum)));
                     }
                     currNum = '';
                 }
-
+                
+                // Finish evaluation of equation
                 if (numList.length === 2) {
                     evaluate();
                 }
 
+                currOp = '';
+                currNum = '';
                 displayStyle(numList[0]);
             }
             break;
+        // Enter
         case ('enter') :
             if (start) {
+                let tempNum = numList[0];
+                clearOnce = false;
                 mOnce = false;
-                if (currNum !== '' && constantNum !== '') {
-                    console.log(constantNum);
-                    console.log('enter here');
+                //ex: 2 = 
+                // ex: 2 = 5 = 
+                if (constantOp === '' && currOp === '' && currNum !== ''){
+                    numList[0] = currNum;
+                }
+                // ex: 2 + 3 = ?  =>  4 + 3 = ?
+                // ex: 2 + 3 = 4 =
+                else if (currNum !== '' && constantNum !== '') {
                     numList[0] = currNum;
                     numList.push(constantNum);
                     currOp = constantOp;
                     evaluate();
                 }
-                else if (currOp === '') {
-                    console.log(constantNum);
-                    console.log('enter here 2');
-                    numList.push(currNum);
-                }
+                // ex: 2 + 3 = ? + 3 = ? + 3 = ?
+                // ex: 2 + 3 = = =
                 else if (currNum === '' && constantNum !== '') {
                     numList.push(constantNum);
                     currOp = constantOp;
                     evaluate();
                 }
-                else if (currNum === '') {
-                    console.log('enter here 4');
-                    numList.push(numList[0]);
+                // ex: 2 + 2 = ?
+                // ex: 2 + =
+                else if (currNum === '' && currOp !== '') {
+                    // ex: 20 + 5 / =
+                    (currOp === 'divide') ? numList.unshift('1') : numList.push(numList[0]);
                     evaluate();
                 }
-                else {  
+                // ex: 1 + 2 = ?
+                // Not else to allow for 2 = = to display only numList[0]
+                else if (currNum !== '' && currOp !== ''){  
                     numList.push(currNum);
                     evaluate();
                 }
-
+                
+                // Store constants for repeated use
+                // Multiply uses first number
+                // ex: 3 * 5 = ?  => 3 * 4 = ?
                 if (constantNum === '' && currOp !== '') {
-                    console.log('constantNum');
-                    (currOp === 'multiply')? constantNum = numList[0] : constantNum = currNum;
+                    (currOp === 'multiply')? constantNum = tempNum : constantNum = currNum;
                     constantOp = currOp;
                 }
 
@@ -217,71 +264,40 @@ function calculator(btnElement) {
                 displayStyle(numList[0]);
             }
             break;
+        // Memory Recall
         case ('mrc') :
             if (start) {
+                clearOnce = false;
+                // Click once recalls a copy of stored memory 
                 if (!mOnce) {
                     displayStyle(memory);
                     mSign.style.color = 'black';
                     currNum = String(memory);
                     mOnce = true;
                 }
+                // Second consecutive click clears memeory
                 else {
                     memory = 0;
                     mSign.style.color = ogColor;
-                    mOnce = false;
                 }
             }
             break;
+        // Memory Minus
         case ('mMinus') :
             if (start) {
+                clearOnce = false;
                 mOnce = false;
-                if (currNum === '' && currOp !== '') {
-                    numList.push(numList[0]);
-                    evaluate();
-                    tempNum = numList[0];
-                }
-                else if (numList.length === 0) {
-                    tempNum = currNum;
-                    currNum = '';
-                }
-                else if (currNum !== '') {
-                    numList.push(currNum);
-                    currNum = '';
-                    evaluate();
-                    tempNum = numList[0];
-                }
-                else {
-                    tempNum = numList[0]
-                }
-                mSign.style.color = 'black';
-                displayStyle(tempNum); 
-                memory = memory - tempNum; 
+                memoryOperator();
+                memory = memory - numList[0]; 
             }
             break;
+        // Memory Add
         case ('mAdd') :
             if (start) {
+                clearOnce = false;
                 mOnce = false;
-                if (currNum === '' && currOp !== '') {
-                    numList.push(numList[0]);
-                    evaluate();
-                    tempNum = numList[0];
-                }
-                else if (numList.length === 0) {
-                    tempNum = currNum;
-                    currNum = '';
-                }
-                else if (currNum !== '') {
-                    numList.push(currNum);
-                    currNum = '';
-                    evaluate();
-                    tempNum = numList[0];
-                }
-                else {
-                    tempNum = numList[0]
-                }
-                mSign.style.color = 'black';
-                displayStyle(tempNum); 
-                memory = memory + tempNum; 
+                memoryOperator(); 
+                memory = memory + numList[0]; 
             }
             break;
     }
@@ -297,23 +313,29 @@ function reset() {
     eSign.style.color = ogColor;
 }
 
+// Hide dot element if decimal exists
 function displayDot(num) {
     (String(num).includes('.')) ? dot.style.display = 'none' : dot.style.display = 'inline';
 }
 
+// Indicate negative sign on display if exists
 function displayNeg(num) {
     (String(num)[0] === '-') ? negSign.style.color = 'Black' : negSign.style.color = ogColor;
 }
 
 function displayE(num) {
+    // Array to split number from decimal point
     let splitNum = String(num).replace(/[-]/g,"").split('.');
-    console.log(splitNum);
+    // Max length 8 not including decimal and negative sign
     if (String(num).replace(/[-.]/g,"").length > 8) {
+        // E sign if whole numbers are more than 8
         (splitNum[0].length > 8) ? eSign.style.color = 'Black' : eSign.style.color = ogColor;
     }
+    // Remove negative sign only for display
     if (String(num)[0] === '-') {
         num = String(num).replace('-','');
     }
+    // Extra slice for decimal point
     (String(num).includes('.')) ? display.textContent = String(num).slice(0,9) : display.textContent = String(num).slice(0,8);
 }
 
@@ -326,8 +348,6 @@ function displayStyle(num) {
 function evaluate() {
     let result = 0;
     numList = numList.reverse();
-    console.log('here');
-    console.log(numList);
     num1 = parseFloat(numList.pop());
     num2 = parseFloat(numList.pop());
     
@@ -373,4 +393,28 @@ function percent(num) {
 
 function sqrt(num) {
     return Math.sqrt(num);
+}
+
+function memoryOperator() {
+    // ex: 2 = + m
+    if (currNum === '' && currOp !== '') {
+        numList.push(numList[0]);
+        evaluate();
+    }
+    // ex: 2 m
+    else if (numList.length === 0) {
+        numList.push(currNum);
+        currNum = '';
+    }
+    // ex: 2 + 3 m
+    else if (currNum !== '') {
+        numList.push(currNum);
+        currNum = '';
+        evaluate();
+    }
+    // Ends with else if as last case is numList[0] which is was handled in previous case
+    // ex: 2 = m
+    currOp = '';
+    mSign.style.color = 'black';
+    displayStyle(numList[0]); 
 }
