@@ -45,12 +45,28 @@ function main() {
 
     // Listen for click for each button
     Array.from(allBtns).forEach(btn => btn.addEventListener('click', () => calculator(btn)));
+    // Listen for keyboard press
+    document.addEventListener('keydown', (event) => {
+        // Prevent errors from other key press
+        const keyList = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '*', '/', '+', '-', '=', '%', 'm', 'Delete', 'Enter'];
+        if (keyList.includes(event.key)){
+            calculator(keyToBtn(event));
+        }   
+    });
+}
+
+// Find element associated with key press
+function keyToBtn(e) {
+    let keyPress = e.key;
+    // Two types of enters
+    if (keyPress === '=') keyPress = 'Enter';
+    return key = document.querySelector(`.key[data-key="${keyPress}"]`);
 }
 
 function calculator(btnElement) {
     let btnContent = '';
     const btnID = btnElement.id;
-    const btnCategory = (btnElement.classList.length !== 0)? btnElement.className : btnID;
+    const btnCategory = (btnElement.classList.length > 1)? btnElement.classList[0] : btnID;
 
     switch(btnCategory) {
         // onClear
@@ -213,7 +229,7 @@ function calculator(btnElement) {
             break;
         // Enter
         case ('enter') :
-            if (start) {
+            if (start) {  
                 let tempNum = numList[0];
                 clearOnce = false;
                 mOnce = false;
