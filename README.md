@@ -10,5 +10,5 @@ No special build tools required. Just open the project in a modern web browser.
    ```bash
    git clone https://github.com/Alphasnoopy/calculator-project.git
    cd calculator-project
-2. Ensure the folder **fonts/** exists and contains **digital-7.tff**.
-3. Open **index.html** in your browser
+2. Ensure the folder `fonts/` exists and contains `digital-7.tff`.
+3. Open `index.html` in your browser
